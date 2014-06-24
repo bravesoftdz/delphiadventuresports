@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{2F912065-138D-4D93-8A19-320D57CF3F21}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="AdventureSports\BU\BU.dproj">
+            <Dependencies>AdventureSports\Common\Common.dproj;AdventureSports\DAL\DAL.dproj</Dependencies>
+        </Projects>
+        <Projects Include="AdventureSports\Common\Common.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="AdventureSports\DAL\DAL.dproj">
+            <Dependencies>AdventureSports\Common\Common.dproj</Dependencies>
+        </Projects>
+        <Projects Include="AdventureSports\AdventureSports\AdventureSports.dproj">
+            <Dependencies>AdventureSports\BU\BU.dproj;AdventureSports\Common\Common.dproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="BU" DependsOnTargets="Common;DAL">
+        <MSBuild Projects="AdventureSports\BU\BU.dproj"/>
+    </Target>
+    <Target Name="BU:Clean" DependsOnTargets="Common:Clean;DAL:Clean">
+        <MSBuild Projects="AdventureSports\BU\BU.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BU:Make" DependsOnTargets="Common:Make;DAL:Make">
+        <MSBuild Projects="AdventureSports\BU\BU.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Common">
+        <MSBuild Projects="AdventureSports\Common\Common.dproj"/>
+    </Target>
+    <Target Name="Common:Clean">
+        <MSBuild Projects="AdventureSports\Common\Common.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Common:Make">
+        <MSBuild Projects="AdventureSports\Common\Common.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DAL" DependsOnTargets="Common">
+        <MSBuild Projects="AdventureSports\DAL\DAL.dproj"/>
+    </Target>
+    <Target Name="DAL:Clean" DependsOnTargets="Common:Clean">
+        <MSBuild Projects="AdventureSports\DAL\DAL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DAL:Make" DependsOnTargets="Common:Make">
+        <MSBuild Projects="AdventureSports\DAL\DAL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="AdventureSports" DependsOnTargets="BU;Common">
+        <MSBuild Projects="AdventureSports\AdventureSports\AdventureSports.dproj"/>
+    </Target>
+    <Target Name="AdventureSports:Clean" DependsOnTargets="BU:Clean;Common:Clean">
+        <MSBuild Projects="AdventureSports\AdventureSports\AdventureSports.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AdventureSports:Make" DependsOnTargets="BU:Make;Common:Make">
+        <MSBuild Projects="AdventureSports\AdventureSports\AdventureSports.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="BU;Common;DAL;AdventureSports"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="BU:Clean;Common:Clean;DAL:Clean;AdventureSports:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="BU:Make;Common:Make;DAL:Make;AdventureSports:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
